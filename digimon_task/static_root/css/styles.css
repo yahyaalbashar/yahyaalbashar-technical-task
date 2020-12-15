@@ -1,0 +1,129 @@
+*, ::after, ::before {
+    box-sizing: border-box;
+    
+}
+*{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+h1, h2, h3, h4, h5, h6,p, a,label {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+.wrapper {
+    padding: 1rem;
+}
+.row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-gap: 1rem;
+    padding: 0;
+}
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    padding: 0;
+}
+.content-section {
+    padding: 0.5rem;
+}
+
+.card {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: solid rgba(0,0,0,.125);
+    border-radius: .40rem;
+}
+
+.card-info-div {
+    max-height: 220px;
+    overflow: hidden;
+    border-top-left-radius: .2rem;
+    border-top-right-radius: .2rem;
+    position: relative;
+
+}
+.card-image{
+    width: 100%;
+}
+.card-title {
+    color: black;
+    padding: .75rem;
+    font-size: 1.25rem;
+    padding: .5rem 1rem;
+    margin: .5rem;
+}
+
+.styled-button {
+    display: inline-block;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    cursor: pointer;
+    padding: .5rem 1rem;
+    margin: .5rem;
+}
+
+.success-button{
+    color:white;
+    background-color: #19a036;
+
+}
+.danger-button{
+    color:white;
+    background-color: #bf1f1f;
+}
+.warning-button{
+    color:black;
+    background-color: #f9c919;
+}
+.primary-button{
+    color:white;
+    background-color: #1987f9;
+}
+
+.nav{
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(60, minmax(60px, 1fr));
+    grid-gap: 1rem;
+    padding: 0;
+    flex-direction: row;
+    background-color: #d3d3d359;
+}
+.nav-item{
+    margin: 1em;
+    cursor: pointer;
+}
+
+.form-text-input{
+    border: solid;
+    border-color: #acacb969;
+    border-radius: .2em;
+    padding: .5em;
+    margin: 1em;
+}

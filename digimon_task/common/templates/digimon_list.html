@@ -3,55 +3,54 @@
 {% block title %}Digimon-list{% endblock title %}
 
 {% block content %}
-    <section class="row d-flex justify-content-center">
-        <h1 class="m-3">Weclome to Digimon world</h1>
+    <section>
+        <h1 class="card-title">Weclome to Digimon world</h1>
+        <h2 class="card-title" id="loader">Fetching Digimons, please wait! .....</h2>
     </section>
-    <section class="row d-flex justify-content-center" id="cardsList">
-        <div class="col-lg-4 col-md-12 mb-3">
-            <div class="alert alert-info" role="alert">
-                Fetching Digimos, please wait...
-            </div>
-        </div>
+    <section class="content-section" id="cardsList">
+            <ul class="row" id="cardsHolder">
+            </u>
     </section>
+
 {% endblock content %}
 
 {% block js %}
 <script>
 function createDigimoncCard(name,level,imgUrl){
-    section=$("#cardsList")
-    col=$("<div></div>").addClass("col-lg-4 col-md-12 mb-3")
-    card=$("<div></div>").addClass("card")
-    img=$("<img>").addClass("card-img-top")
+    ul=$("#cardsHolder")
+    card=$("<li></li>").addClass("card")
+    cardInfo=$("<div>").addClass("card-info-div")
+    img=$("<img>")
     img.attr('src',imgUrl)
-    cardBody=$("<div><div/>").addClass("card-body")
     nameTitle=$("<h5></h5>").addClass("card-title")
     levelTitle=$("<h5></h5>").addClass("card-title")
-    favButton=$("<button></button>").text("add to favorite +").addClass("btn btn-primary btn-block")
+    favButton=$("<button></button>").text("add to favorite +").addClass("primary-button styled-button")
     favButton.attr("data-name",name)
     favButton.attr("data-level",level)
     favButton.attr("data-img-url",imgUrl)
     nameTitle.text("name: "+name)
     levelTitle.text("level: "+level)
-    cardBody.append(nameTitle,levelTitle,img,favButton)
-    card.append(cardBody)
-    col.append(card)
-    section.append(col)
+    cardInfo.append(nameTitle,levelTitle)
+    card.append(cardInfo,img,favButton)
+    ul.append(card)
 }
 $(document).ready(function(){
     $.ajax({
         'url':'https://digimon-api.herokuapp.com/api/digimon',
         'type':'GET',
         success:function(result){
-            section=$("#cardsList")
-            section.empty()
+            ul=$("#cardsHolder")
+            loader=$('#loader')
+            ul.empty()
             $.each(result,function(index,value){
                 createDigimoncCard(value.name,value.level,value.img)
             })
+            loader.remove()
         }
     })
 })
 
-$(document).on("click",".btn",function(){
+$(document).on("click",".primary-button",function(){
 
     data={
         "name":$(this).data("name"),

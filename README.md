@@ -1,4 +1,3 @@
-# yahyaalbashar-technical-task
 # Welcome to the Digimon app
 this app uses Django web framework and python 3.8
 ## please follow instructions below to run the app locally:

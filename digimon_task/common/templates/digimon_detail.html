@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}{{digimon.name}}-details{% endblock title %}
+
+{% block content %}
+
+
+<section class="row d-flex justify-content-center">
+    <h1 class="m-3">Digimon details:</h1>
+</section>
+{% if messages %}
+  <section class="row d-flex justify-content-center">
+  
+      {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+  </section>
+{% endif %}
+<section class="row d-flex justify-content-center" id="cardsList">
+    <div class="col-lg-4 col-md-12 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">name: {{digimon.name}}</h5>
+                <h5 class="card-title">level: {{digimon.level}}</h5>
+                <img class="card-img-top" src="{{digimon.image}}">
+                <button class="btn btn-warning btn-block" data-toggle="modal" data-target="#updateDigimon">Update</button>
+                <button class="btn btn-danger btn-block" data-toggle="modal" data-target="#deleteDigimon">Delete</button>
+            </div>
+        </div>
+    </div>
+
+</section>
+<div class="modal fade" id="updateDigimon" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" >Update Digimon:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+          {% csrf_token %}
+          <div class="form-row" >
+            <div class="col-lg-12 col-md-12">
+              <label>Digimon name:</label>
+              {{form.name}}
+            </div>
+          </div>
+          <div class="form-row" >
+            <div class="col-lg-12 col-md-12">
+              <label>Digimon name:</label>
+              {{form.level}}
+          </div>
+          </div>
+          <div class="form-row" >
+            <div class="col-lg-12 col-md-12">
+            <label>Image url:</label>
+            {{form.image}}
+            </div>
+          </div>
+          <div class="form-row" >
+            <div class="col-lg-12 col-md-12">
+              <label>Image url:</label>
+              <input type="submit" value="Update" class="btn btn-success">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="deleteDigimon" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">confirmation:</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            Are you sure you want to delete {{digimon.name}}?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" id="delete" data-digimon="{{digimon.pk}}">Yes, delete!</button>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script>
+  $(document).ready(function(){
+    $('form').find(':input').addClass("form-control")
+  })
+  $("#delete").click(function(){
+        
+    $.ajax({
+        url:"{% url 'delete_digimon' %}",
+        type:"POST",
+        data:{
+            "pk":"{{digimon.pk}}",
+            csrfmiddlewaretoken:"{{csrf_token}}"
+        },
+        success:function(result){
+            window.location=result.url_redirect
+        }
+    })
+    })
+</script>
+{% endblock js %}

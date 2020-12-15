@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Favorite-Digimon-list{% endblock title %}
+
+{% block content %}
+
+<section class="row d-flex justify-content-center">
+    <h1 class="m-3">Favorite Digimon list</h1>
+</section>
+<section class="row d-flex justify-content-center" id="cardsList">
+
+    {% for digimon in digimon_list %}
+    <div class="col-lg-4 col-md-12 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">name: {{digimon.name}}</h5>
+                <h5 class="card-title">level: {{digimon.level}}</h5>
+                <img class="card-img-top" src="{{digimon.image}}">
+                <a href="{{digimon.get_absolute_url}}" class="btn btn-primary btn-block">Details</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+</section>
+{% endblock content %}
+
+{% block js %}
+
+{% endblock js %}

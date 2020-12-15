@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Digimon-list{% endblock title %}
+
+{% block content %}
+    <section class="row d-flex justify-content-center">
+        <h1 class="m-3">Weclome to Digimon world</h1>
+    </section>
+    <section class="row d-flex justify-content-center" id="cardsList">
+        <div class="col-lg-4 col-md-12 mb-3">
+            <div class="alert alert-info" role="alert">
+                Fetching Digimos, please wait...
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block js %}
+<script>
+function createDigimoncCard(name,level,imgUrl){
+    section=$("#cardsList")
+    col=$("<div></div>").addClass("col-lg-4 col-md-12 mb-3")
+    card=$("<div></div>").addClass("card")
+    img=$("<img>").addClass("card-img-top")
+    img.attr('src',imgUrl)
+    cardBody=$("<div><div/>").addClass("card-body")
+    nameTitle=$("<h5></h5>").addClass("card-title")
+    levelTitle=$("<h5></h5>").addClass("card-title")
+    favButton=$("<button></button>").text("add to favorite +").addClass("btn btn-primary btn-block")
+    favButton.attr("data-name",name)
+    favButton.attr("data-level",level)
+    favButton.attr("data-img-url",imgUrl)
+    nameTitle.text("name: "+name)
+    levelTitle.text("level: "+level)
+    cardBody.append(nameTitle,levelTitle,img,favButton)
+    card.append(cardBody)
+    col.append(card)
+    section.append(col)
+}
+$(document).ready(function(){
+    $.ajax({
+        'url':'https://digimon-api.herokuapp.com/api/digimon',
+        'type':'GET',
+        success:function(result){
+            section=$("#cardsList")
+            section.empty()
+            $.each(result,function(index,value){
+                createDigimoncCard(value.name,value.level,value.img)
+            })
+        }
+    })
+})
+
+$(document).on("click",".btn",function(){
+
+    data={
+        "name":$(this).data("name"),
+        "level":$(this).data("level"),
+        "image":$(this).data("img-url")
+    }
+    console.log(data)
+    $.ajax({
+        "url":"{% url 'add_digimon_to_fav' %}",
+        data:{
+                "digimon_object":JSON.stringify(data),
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+        "type":"POST",
+        success:function(reslut){
+            console.log(reslut)
+            window.location="{% url 'digimon_fav_list' %}"
+        }
+        
+    })
+})
+</script>
+{% endblock js %}
